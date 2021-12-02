@@ -23,66 +23,137 @@
       console.log("lastdate: "+lastdate);
       console.log("i: "+i);
         //while (i < lastdate) {
-            let a = 0;
-        while (a < timeWindow) {
+            
+            let yesterdaysPrice = 0;
+            let bearish = 0;
+            let trendStart = 0;
+            let trendEnd = 0;
+            let daysPrice = 0;
+            let maxBearish = 0;
+            let maxStart = 0;
+            //let currentMax = {bearish: 0, trendStart: 0, trendEnd: lastdate}
+            //const currentMax=[];
         
-      fetch(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=usd&from=${i}&to=${i+86400}`)
+        
+      fetch(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=usd&from=${firstdate}}&to=${(lastdate+86400)}`)
       .then((response) => {
         console.log(response.status);
-      return response.text();
+      return response.json();
       })
       .then((data) => {
     // do something with 'data'
         //console.log(document.querySelector('.bitcoinApi').innerHTML = data);
-        console.log(data);
+        //console.log(data);
 
-        const obj = JSON.parse(data);
-        console.log(obj);
+        const obj = data;
+        console.log(obj.prices);
         console.log("Prices listan pituus: "+obj.prices.length);
-        let daysPrice = (obj.prices[0])[1];
-        console.log("Days price: "+daysPrice);
+        daysPrice = (obj.prices[0])[1];
+        let closest = 0;
+        thisDate = 0;
+        let daysTime = 0;
+
+        for (let i=0; i<timeWindow; i++) {
+            
+            thisDate=firstdate*1000+(i*86400000);
+            const d = new Date(thisDate)
+            console.log(d);
+            console.log("ThisDate: "+thisDate)
+            
+            for(let i=0; i < obj.prices.length; i++) {
+
+            const found = obj.prices[i].find(element => element > thisDate);
+            console.log("found: "+found);
+            if (found != undefined) {
+                daysPrice=(obj.prices[i])[1];
+                console.log("Daysprice: "+daysPrice)
+                break
+            }
+            
+            //const index = obj.prices.findIndex(element => element > thisDate);
+            //console.log(index);
+
+            
+            
+            // if (thisDate-found < 0) {
+            //     daysTime=found;
+            //     console.log("closest päivitetty: "+daysTime);
+                
+            // }else {
+            // continue;
+            // }
+            
+        }
+        if (daysPrice < yesterdaysPrice && bearish==0) {
+            bearish++;
+            console.log("Bear: "+bearish)
+            trendStart = thisDate;
+        }else if (daysPrice < yesterdaysPrice && bearish > 0) {
+            bearish++
+            console.log("Bear: "+bearish)
+
+        } else {
+            bearish = 0;
+            console.log("Bear: "+bearish)
+        }
+        if (bearish > maxBearish) {
+            
+            maxBearish=bearish;
+            maxStart=trendStart;
+            maxEnd=thisDate;
+            
+            
+            
+        } 
+        // else if(bearish===maxBearish && daysPrice > yesterdaysPrice) {
+        //         bearish = 0;
+        //         trendEnd = thisDate;
+        //         }
+        
+        
+
+            
+            
+
+            
+
+           
+           
+           
+           
+            
+            //console.log(firstdate)
+            yesterdaysPrice = daysPrice;
+            
+            
+        }
+        
+
+
+        
+
 
         
         
-        
 
         
+        const finalTrendStart = new Date(maxStart)
+        console.log("Max bear startti "+finalTrendStart);
+        const finalTrendEnd = new Date(maxEnd)
+            console.log("Max bear loppui: "+finalTrendEnd);
 
-       //for (let i = 0; i < obj.prices.length; i++) {
-         //   console.log(obj.prices[i]);
-         //} 
-         
+       
+  
+console.log("Bearish: "+bearish);
+console.log("MaxBearish: "+maxBearish);
 
-        //console.log((Date.parse(document.getElementById("start").value)/1000));
-        //console.log(((Date.parse(document.getElementById("end").value))+86400000)/1000);
-        //for (let i = (Date.parse(document.getElementById("start").value)/1000); i < ((Date.parse(document.getElementById("end").value))+86400000)/1000; i+86400) {
-          // console.log((obj.prices[0])[1]);
-        //}
 
-        //let alku = (Date.parse(document.getElementById("start").value));
-         //let loppu= ((Date.parse(document.getElementById("end").value))+86400000)
-        //for (i=alku; i<loppu; i=i+86400000) {
-           // console.log("i on: "+i);
-            //console.log(obj.prices.indexOf(i));
-
-            //const found = obj.prices[0].find(element => element.closest(i) );
-            //console.log("löytö: "+found);
-       // }
-        
-        //HAE JOKA PÄIVÄ ERIKSEEN
-
-    
-
-    //console.log(obj.prices[0]);
-    //console.log((obj.prices[0])[1]);
-    
-
+document.getElementById("tehtava1").innerHTML = "The longest bearish Bitcoin trend within a given date range was "+maxBearish+" days in a row. It happeneded between "+finalTrendStart+" and "+finalTrendEnd+". If my calculations are correct.";
+//document.getElementById("tehtava1").innerHTML = "In bitcoin’s historical data from CoinGecko, the price decreased "+maxBearish+""; 
   });
-  i=i+86400;
-console.log("i: "+i);
+  
 
-  a++;
-}
+  
 
   }
 
