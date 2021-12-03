@@ -1,13 +1,46 @@
+body {
+    background-color: white;
+    background-image: url("https://c4.wallpaperflare.com/wallpaper/70/844/929/minimalism-figure-background-art-cartoon-hd-wallpaper-preview.jpg");
+}
 h1 {
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    background-color: gold;
+    font-family: 'Courier New', monospace;
+    background-color: goldenrod;
     text-align: center;
-    margin: 1%;
+    margin-top: 3%;
+    margin-left: 6%;
+    margin-right: 6%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 #div1 {
     background-color: grey;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    
     
 }
 #testi {
     background-color: aquamarine;
+}
+.col {
+    margin: 3%;
+    background-color: goldenrod;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding: 25px;
+}
+#tehtava1 {
+    font-weight: bold;
+    background-color:white;
+    border-radius: 10;
+    border: 4px;
+}
+#tehtava2 {
+    font-weight: bold;
+    background-color: white;
+    border-radius: 10;
+}
+#tehtava3 {
+    font-weight: bold;
+    background-color: white;
+    border-radius: 10;
 }

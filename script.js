@@ -5,10 +5,10 @@
       let lastdate = (Date.parse(document.getElementById("end").value)+86400000)/1000;
       let i=firstdate;
       let timeWindow = (lastdate - firstdate)/86400;
-      console.log("timeWindow: "+ timeWindow);
-      console.log("firsdate: "+firstdate);
-      console.log("lastdate: "+lastdate);
-      console.log("i: "+i);
+      //console.log("timeWindow: "+ timeWindow);
+      //console.log("firsdate: "+firstdate);
+      //console.log("lastdate: "+lastdate);
+      //console.log("i: "+i);
         
             
             let yesterdaysPrice = 0;
@@ -22,14 +22,14 @@
         
       fetch(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=usd&from=${firstdate}}&to=${(lastdate+86400)}`)
       .then((response) => {
-        console.log(response.status);
+        //console.log(response.status);
       return response.json();
       })
       .then((data) => {
 
         const obj = data;
-        console.log(obj.prices);
-        console.log("Prices listan pituus: "+obj.prices.length);
+        //console.log(obj.prices);
+        //console.log("Prices listan pituus: "+obj.prices.length);
         daysPrice = (obj.prices[0])[1];
         let closest = 0;
         thisDate = 0;
@@ -39,16 +39,16 @@
             
             thisDate=firstdate*1000+(i*86400000);
             const d = new Date(thisDate)
-            console.log(d);
-            console.log("ThisDate: "+thisDate)
+            //console.log(d);
+            //console.log("ThisDate: "+thisDate)
             
             for(let i=0; i < obj.prices.length; i++) {
 
             const found = obj.prices[i].find(element => element > thisDate);
-            console.log("found: "+found);
+            //console.log("found: "+found);
             if (found != undefined) {
                 daysPrice=(obj.prices[i])[1];
-                console.log("Daysprice: "+daysPrice)
+                //console.log("Daysprice: "+daysPrice)
                 break;
             }
             
@@ -56,15 +56,15 @@
         }
         if (daysPrice < yesterdaysPrice && bearish==0) {
             bearish++;
-            console.log("Bear: "+bearish)
+            //console.log("Bear: "+bearish)
             trendStart = thisDate;
         }else if (daysPrice < yesterdaysPrice && bearish > 0) {
             bearish++
-            console.log("Bear: "+bearish)
+            //console.log("Bear: "+bearish)
 
         } else {
             bearish = 0;
-            console.log("Bear: "+bearish)
+            //console.log("Bear: "+bearish)
         }
         if (bearish > maxBearish) {
             
@@ -90,15 +90,15 @@
         
 
         
-        const finalTrendStart = new Date(maxStart)
-        console.log("Max bear startti "+finalTrendStart);
-        const finalTrendEnd = new Date(maxEnd)
-            console.log("Max bear loppui: "+finalTrendEnd);
+        const finalTrendStart = new Date(maxStart).toLocaleDateString();
+        //console.log("Max bear startti "+finalTrendStart);
+        const finalTrendEnd = new Date(maxEnd).toLocaleDateString();
+            //console.log("Max bear loppui: "+finalTrendEnd);
 
        
   
-console.log("Bearish: "+bearish);
-console.log("MaxBearish: "+maxBearish);
+//console.log("Bearish: "+bearish);
+//console.log("MaxBearish: "+maxBearish);
 
 
 document.getElementById("tehtava1").innerHTML = "The longest bearish Bitcoin trend within a given date range was "+maxBearish+" days in a row. It happeneded between "+finalTrendStart+" and "+finalTrendEnd+". If my calculations are correct.";
@@ -119,14 +119,14 @@ document.getElementById("tehtava1").innerHTML = "The longest bearish Bitcoin tre
 
     fetch(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=usd&from=${firstdate}}&to=${(lastdate+86400)}`)
       .then((response) => {
-        console.log(response.status);
+        //console.log(response.status);
       return response.json();
       })
       .then((data) => {
 
         const obj = data;
-        console.log(obj);
-        console.log(obj.total_volumes);
+        //console.log(obj);
+        //console.log(obj.total_volumes);
 
         for (let i=0; i<timeWindow; i++) {
             
@@ -136,13 +136,13 @@ document.getElementById("tehtava1").innerHTML = "The longest bearish Bitcoin tre
             for(let i=0; i < obj.total_volumes.length; i++) {
 
                 const found = obj.total_volumes[i].find(element => element > thisDate);
-                console.log("found: "+found);
+                //console.log("found: "+found);
                 if (found != undefined) {
-                    console.log((obj.total_volumes[i])[1]);
+                    //console.log((obj.total_volumes[i])[1]);
                     if((obj.total_volumes[i])[1]>maxVolume) {
                         maxVolume=(obj.total_volumes[i])[1];
                         maxDate=thisDate;
-                    console.log("maxVolume: "+maxVolume)
+                    //console.log("maxVolume: "+maxVolume)
                     
                     }
                     break;
@@ -161,8 +161,9 @@ document.getElementById("tehtava1").innerHTML = "The longest bearish Bitcoin tre
             
             
         }
-           console.log("maksimivola: "+maxVolume)
-           document.getElementById("tehtava2").innerHTML = "The highest trading volume in the chosen period was on "+maxDate+" when the trading volume was $"+maxVolume+"!"; 
+        const finalMaxDate = new Date(maxDate)
+           //console.log("maksimivola: "+maxVolume)
+           document.getElementById("tehtava2").innerHTML = "The highest trading volume in the chosen period was on "+(finalMaxDate).toLocaleDateString()+" when the trading volume was $"+maxVolume.toFixed(0)+"!"; 
         
     });
   }
@@ -181,8 +182,8 @@ document.getElementById("tehtava1").innerHTML = "The longest bearish Bitcoin tre
           let yesterdaysPrice = 0;
           let lowestValue = 0;
           let highestValue= 0;
-          let bestBuy = 0;
-          let bestSell = 0;
+          //let bestBuy = 0;
+          //let bestSell = 0;
           let daysPrice = 0;
           let compare = 0;
           let trendGain = 0;
@@ -232,7 +233,7 @@ document.getElementById("tehtava1").innerHTML = "The longest bearish Bitcoin tre
           
           
       
-      if (highestValue==0 && lowestValue==0){
+      /* if (highestValue==0 && lowestValue==0){
           highestValue=daysPrice;
           lowestValue=daysPrice;
           bestBuy=thisDate;
@@ -248,7 +249,7 @@ document.getElementById("tehtava1").innerHTML = "The longest bearish Bitcoin tre
            bestBuy=thisDate;
            //console.log("lowest price päivitetty");
            //console.log("lowest price "+lowestValue);  
-       } 
+       }   */
        
        if (yesterdaysPrice>0) {
            console.log("aloitettu trendin jahti")
@@ -260,11 +261,16 @@ document.getElementById("tehtava1").innerHTML = "The longest bearish Bitcoin tre
                
                if(compare>0) {
                 
-               trendStartDay=(thisDate-86400);
+               trendStartDay=(thisDate-86400000);
+               maxTrendStartDay=trendStartDay;
+               
+               trendEndDay=thisDate;
+               maxTrendEndDay=trendEndDay
                
                trendGain+=compare;
                maxTrendGain=trendGain;
                console.log("trend start: "+trendStartDay+" trend ens: "+trendEndDay+"trend Gain: "+trendGain)
+               yesterdaysPrice = daysPrice;
                continue;
                } 
                }
@@ -280,6 +286,7 @@ document.getElementById("tehtava1").innerHTML = "The longest bearish Bitcoin tre
                } else if(compare<0){
                    trendGain+=compare;
                    if (trendGain<0) {
+                       trendGain=0;
                        console.log("TrendGain nollaantui");
                    }
                }
@@ -287,6 +294,7 @@ document.getElementById("tehtava1").innerHTML = "The longest bearish Bitcoin tre
            console.log("trendGain: "+trendGain);
        
     }
+    console.log(trendEndDay)
     
       
           yesterdaysPrice = daysPrice;
@@ -302,25 +310,28 @@ document.getElementById("tehtava1").innerHTML = "The longest bearish Bitcoin tre
 
       } */
 
+      
+      
+    const startTime = new Date(maxTrendStartDay).toLocaleDateString();
+          //console.log(startTime);
+
+    const endTime = new Date(maxTrendEndDay).toLocaleDateString();
+          //console.log(endTime);
 
       
-      const startTime = new Date(maxTrendStartDay)
-          console.log(startTime);
-
-          const endTime = new Date(maxTrendEndDay)
-          console.log(endTime);
-
-      
-      console.log("MaxTrendGain: "+maxTrendGain+" Trendi alkoi: "+startTime+" trendi loppui: "+endTime)
+      //console.log("MaxTrendGain: "+maxTrendGain+" Trendi alkoi: "+startTime+" trendi loppui: "+endTime)
      
 
-console.log("Osta: "+lowestValue+" päivänä: "+bestBuy);
-console.log("Myy: "+highestValue+" päivänä: "+bestSell);
+//console.log("Osta: "+lowestValue+" päivänä: "+bestBuy+" vs "+maxTrendStartDay);
+//console.log("Myy: "+highestValue+" päivänä: "+bestSell+" vs "+maxTrendEndDay);
 
 
-
-document.getElementById("tehtava3").innerHTML = "The longest bearish Bitcoin trend within a given date range e correct.";
+if (maxTrendGain == 0) {
+    document.getElementById("tehtava3").innerHTML = "Price is only going down. No point travelling to that time period. You should try some other period.";
+}else {
+document.getElementById("tehtava3").innerHTML = "If you can travel back in time to this period of time, you should buy around "+startTime+" and sell around "+endTime+", because in mentioned timeperiod the worth of 1 Bitcoin rose about $"+maxTrendGain.toFixed(0)+".";
 //document.getElementById("tehtava1").innerHTML = "In bitcoin’s historical data from CoinGecko, the price decreased "+maxBearish+""; 
+}
 });
 
 
