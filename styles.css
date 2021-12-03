@@ -4,6 +4,8 @@ body {
 }
 h1 {
     font-family: 'Courier New', monospace;
+    font-weight: bold;
+    text-shadow: 1px 1px;
     background-color: goldenrod;
     text-align: center;
     margin-top: 3%;
@@ -11,6 +13,10 @@ h1 {
     margin-right: 6%;
     border-radius: 10px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+h3 {
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
 }
 #div1 {
     background-color: grey;
