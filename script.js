@@ -184,8 +184,16 @@ document.getElementById("tehtava1").innerHTML = "The longest bearish Bitcoin tre
           let bestBuy = 0;
           let bestSell = 0;
           let daysPrice = 0;
+          let compare = 0;
+          let trendGain = 0;
+          let maxTrendGain = 0;
+          let trendEndDay = 0;
+          let trendStartDay = 0;
+          let maxTrendStartDay = 0;
+          let maxTrendEndDay = 0;
+
           
-          let maxStart = 0;
+          
           
       
       
@@ -209,12 +217,12 @@ document.getElementById("tehtava1").innerHTML = "The longest bearish Bitcoin tre
           thisDate=firstdate*1000+(i*86400000);
           const d = new Date(thisDate)
           console.log(d);
-          console.log("ThisDate: "+thisDate)
+          //console.log("ThisDate: "+thisDate)
           
           for(let i=0; i < obj.prices.length; i++) {
 
           const found = obj.prices[i].find(element => element > thisDate);
-          console.log("found: "+found);
+          //console.log("found: "+found);
           if (found != undefined) {
               daysPrice=(obj.prices[i])[1];
               console.log("Daysprice: "+daysPrice)
@@ -229,20 +237,56 @@ document.getElementById("tehtava1").innerHTML = "The longest bearish Bitcoin tre
           lowestValue=daysPrice;
           bestBuy=thisDate;
           bestSell=thisDate;
-          console.log("alkuarvo price päivitetty"); 
-      } else if (daysPrice > highestValue) {
-          highestValue=daysPrice; 
-          bestSell=thisDate;
-          console.log("highest price päivitetty"); 
-          console.log("highest price "+highestValue); 
-      } else if (daysPrice < lowestValue) {
-          lowestValue=daysPrice;
-          bestBuy=thisDate;
-          console.log("lowest price päivitetty");
-          console.log("lowest price "+lowestValue);  
-      } else {
-          continue;
-      }
+          //console.log("alkuarvo price päivitetty"); 
+      }else if (daysPrice > highestValue) {
+           highestValue=daysPrice; 
+           bestSell=thisDate;
+           //console.log("highest price päivitetty"); 
+           //console.log("highest price "+highestValue); 
+       } else if (daysPrice < lowestValue) {
+           lowestValue=daysPrice;
+           bestBuy=thisDate;
+           //console.log("lowest price päivitetty");
+           //console.log("lowest price "+lowestValue);  
+       } 
+       
+       if (yesterdaysPrice>0) {
+           console.log("aloitettu trendin jahti")
+
+           compare = daysPrice-yesterdaysPrice;
+           console.log("compare: "+compare);
+           
+           if (trendGain<=0){
+               
+               if(compare>0) {
+                
+               trendStartDay=(thisDate-86400);
+               
+               trendGain+=compare;
+               maxTrendGain=trendGain;
+               console.log("trend start: "+trendStartDay+" trend ens: "+trendEndDay+"trend Gain: "+trendGain)
+               continue;
+               } 
+               }
+            if(trendGain>0){
+               if (compare>0 ) {
+                   trendGain+=compare;
+                   if(trendGain>maxTrendGain){
+                       maxTrendGain=trendGain;
+                       maxTrendEndDay=thisDate;
+                       maxTrendStartDay=trendStartDay
+                       console.log("maxTrend päivitetty: "+maxTrendGain)
+                   } 
+               } else if(compare<0){
+                   trendGain+=compare;
+                   if (trendGain<0) {
+                       console.log("TrendGain nollaantui");
+                   }
+               }
+           }
+           console.log("trendGain: "+trendGain);
+       
+    }
     
       
           yesterdaysPrice = daysPrice;
@@ -252,14 +296,22 @@ document.getElementById("tehtava1").innerHTML = "The longest bearish Bitcoin tre
       
 
 
-      
+      /* if(bestSell) {
+          
+      } else {
+
+      } */
 
 
       
-      
+      const startTime = new Date(maxTrendStartDay)
+          console.log(startTime);
+
+          const endTime = new Date(maxTrendEndDay)
+          console.log(endTime);
 
       
-
+      console.log("MaxTrendGain: "+maxTrendGain+" Trendi alkoi: "+startTime+" trendi loppui: "+endTime)
      
 
 console.log("Osta: "+lowestValue+" päivänä: "+bestBuy);
