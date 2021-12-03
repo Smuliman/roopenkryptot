@@ -144,3 +144,17 @@ i=i+86400;
 console.log("i: "+i);
 a++;
 }
+
+
+//Jokin vertailu viritys tehtävä 3
+if(daysPrice>yesterdaysPrice) {
+
+    compare += (daysPrice-yesterdaysPrice);
+    console.log("Compare lisäys: "+compare);
+} else if(yesterdaysPrice != 0 && daysPrice<yesterdaysPrice) {
+    compare -= (yesterdaysPrice-daysPrice)
+    console.log("Compare vähennys: "+compare);
+    
+} else {
+ console.log("Compare ei muuttunut. Days price: "+daysPrice+"yesterdaysprice: "+yesterdaysPrice);
+}
