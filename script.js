@@ -1,6 +1,6 @@
  
   function bitcoin1() {
-      
+      //
       let firstdate = Date.parse(document.getElementById("start").value)/1000;
       let lastdate = (Date.parse(document.getElementById("end").value)+86400000)/1000;
       let i=firstdate;
