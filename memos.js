@@ -158,3 +158,10 @@ if(daysPrice>yesterdaysPrice) {
 } else {
  console.log("Compare ei muuttunut. Days price: "+daysPrice+"yesterdaysprice: "+yesterdaysPrice);
 }
+
+let i=firstdate;
+daysPrice = (obj.prices[0])[1]; //oli rivillä 38
+
+const d = new Date(thisDate)
+                //console.log(d);
+                //console.log("ThisDate: "+thisDate) // rivillä 48
