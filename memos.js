@@ -1,3 +1,6 @@
+//Ignore these
+//Nämä ovat skriptin pätkiä, joita en heti uskaltanut kokonaan poistaa
+
 //looppi, jossa paalutetaan logiin ajanjakson ensimmäinen price eli ajanjakson arvo
 for (let i =(Date.parse(document.getElementById("start").value)/1000) ; i < ((Date.parse(document.getElementById("end").value))+86400000)/1000; i=i+86400) {
     console.log((obj.prices[0])[1]);

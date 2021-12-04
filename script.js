@@ -6,11 +6,6 @@ function bitcoin1() {
     // count to quantity of days in the selected time window to be used later
 
     let timeWindow = (lastdate - firstdate) / 86400;
-    // some console logs for trouble shooting
-    //console.log("timeWindow: "+ timeWindow);
-    //console.log("firsdate: "+firstdate);
-    //console.log("lastdate: "+lastdate);
-    //console.log("i: "+i);
 
     // variables are introduced. These will be exploited to keep up with the trends and saving data of the longest bearish trend
     let yesterdaysPrice = 0;
@@ -25,7 +20,7 @@ function bitcoin1() {
     fetch(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=eur&from=${firstdate}}&to=${(lastdate + 3600)}`)
         .then((response) => {
             //console.log(response.status);
-            
+
             return response.json();
         })
         .then((data) => {
@@ -33,18 +28,18 @@ function bitcoin1() {
             const obj = data;
             //console.log(obj.prices);
             //console.log("Prices listan pituus: "+obj.prices.length);
-            
-            
+
+
             //variable thisDate for the loop
             thisDate = 0;
-            
+
             //Loop to which goes around as many times as there are days in the time period. 
             //The loop finds the earliest TIMESTAMP of every day in the time period and the compares it to yesterdays value
             //if yesterdaysPrice is bigger than daysPrice, it means bearish trend. If not some other things happen:)
             for (let i = 0; i < timeWindow; i++) {
                 //thisDate is calculated by multipling firstdate TIMESTAMP with 1000(to mseconds) and adding 86400000(one day) for every loop round.
                 thisDate = firstdate * 1000 + (i * 86400000);
-                
+
                 //other loop inside loop: this loop finds the first datapoint of the day and saves that datapoints Bitcoin value to variable daysPrice
                 for (let i = 0; i < obj.prices.length; i++) {
 
@@ -65,12 +60,12 @@ function bitcoin1() {
                     bearish++;
                     //console.log("Bear: "+bearish)
                     trendStart = thisDate;
-                // other option is that daysPrice is smaller than yesterdays but bearish value is more than 0. In that case we just add 1 to bearish
-                //as this is not the start of the trend
+                    // other option is that daysPrice is smaller than yesterdays but bearish value is more than 0. In that case we just add 1 to bearish
+                    //as this is not the start of the trend
                 } else if (daysPrice < yesterdaysPrice && bearish > 0) {
                     bearish++
                     //console.log("Bear: "+bearish)
-                // in other cases the daysPrice is more than yesterdays which means end of the bear trend->we set bearish to 0    
+                    // in other cases the daysPrice is more than yesterdays which means end of the bear trend->we set bearish to 0    
                 } else {
                     bearish = 0;
                     //console.log("Bear: "+bearish)
@@ -107,7 +102,7 @@ function bitcoin2() {
     let lastdate = (Date.parse(document.getElementById("end2").value) + 86400000) / 1000;
     let timeWindow = (lastdate - firstdate) / 86400;
     let maxVolume = 0;
-    let maxDate=0;
+    let maxDate = 0;
 
     //Fetch data from API
     fetch(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=eur&from=${firstdate}}&to=${(lastdate + 3600)}`)
@@ -123,12 +118,12 @@ function bitcoin2() {
 
             //loop to go through imputted time period 
             for (let i = 0; i < timeWindow; i++) {
-                
+
                 thisDate = firstdate * 1000 + (i * 86400000);
 
                 //another loop to find datapoints closest to 00:00
                 for (let i = 0; i < obj.total_volumes.length; i++) {
-                    
+
                     const found = obj.total_volumes[i].find(element => element > thisDate);
                     //console.log("found: "+found);
 
@@ -163,17 +158,8 @@ function bitcoin3() {
     let lastdate = (Date.parse(document.getElementById("end3").value) + 86400000) / 1000;
     let i = firstdate;
     let timeWindow = (lastdate - firstdate) / 86400;
-    //console.log("timeWindow: " + timeWindow);
-    //console.log("firsdate: " + firstdate);
-    //console.log("lastdate: " + lastdate);
-   // console.log("i: " + i);
-
 
     let yesterdaysPrice = 0;
-    //let lowestValue = 0;
-    //let highestValue = 0;
-    //let bestBuy = 0;
-    //let bestSell = 0;
     let daysPrice = 0;
     let compare = 0;
     let trendGain = 0;
@@ -214,7 +200,7 @@ function bitcoin3() {
                     if (found != undefined) {
                         //wanted datapoint found: lets save its price to daysPrice and break the loop
                         daysPrice = (obj.prices[i])[1];
-                        //console.log("Daysprice: " + daysPrice)
+                        console.log("Daysprice: " + daysPrice)
                         break;
                     }
                 }
@@ -232,12 +218,12 @@ function bitcoin3() {
                         if (compare > 0) {
                             // compare is positive so price has gone up comparing to yesterday, so we save yesterday day as a Trend start day
                             trendStartDay = (thisDate - 86400000);
-                            
+
                             //when trandGain is updated, also trendEndDay will be updated
                             trendEndDay = thisDate;
                             trendGain += compare;
                             //console.log("trend start: " + trendStartDay + " trend ens: " + trendEndDay + "trend Gain: " + trendGain)
-                            
+
                             // if trendGain is bigger than maxTrendGain, max variables must be updated
                             if (trendGain > maxTrendGain) {
                                 maxTrendGain = trendGain;
@@ -248,56 +234,48 @@ function bitcoin3() {
                             }
                             //continue statement is coming as we dont want to proceed anymore inside this round of the loop, so daysPrice must be updated to yesterdaysPrice
                             yesterdaysPrice = daysPrice;
+                            console.log("trendGain: " + trendGain);
                             continue;
                         }
                     }
                     //next up is those cases when already trendGain is positive
                     if (trendGain > 0) {
                         //console.log("tämä valittu");
-                        
+
                         //if also compare is positive we just add compare value to trenGain
                         if (compare > 0) {
                             trendGain += compare;
-                            }
                         }
-                        //if compare is negative we also "add" it to trendGain value but negative value naturally decreases trendGain
-                        if (compare < 0) {
-                            //console.log("sekä tämä");
-                            trendGain += compare;
-                            //if trendGain goes to zero or to negative value, trendGain needs to be set to 0
-                            if (trendGain < 0) {
-                                trendGain = 0;
-                                //console.log("TrendGain nollaantui");
-                            }
-                        }
-                        //Check if trendGain breaks record and max values need to be updated
-                        if (trendGain > maxTrendGain) {
-                            maxTrendGain = trendGain;
-                            maxTrendEndDay = thisDate;
-                            maxTrendStartDay = trendStartDay
-                            //console.log("maxTrend päivitetty: " + maxTrendGain)
-                            //console.log("maxTrendEndDay päivitetty: " + maxTrendEndDay)
                     }
-                    //console.log("trendGain: " + trendGain);
+                    //if compare is negative we also "add" it to trendGain value but negative value naturally decreases trendGain
+                    if (compare < 0) {
+                        //console.log("sekä tämä");
+                        trendGain += compare;
+                        //if trendGain goes to zero or to negative value, trendGain needs to be set to 0
+                        if (trendGain < 0) {
+                            trendGain = 0;
+                            //console.log("TrendGain nollaantui");
+                        }
+                    }
+                    //Check if trendGain breaks record and max values need to be updated
+                    if (trendGain > maxTrendGain) {
+                        maxTrendGain = trendGain;
+                        maxTrendEndDay = thisDate;
+                        maxTrendStartDay = trendStartDay
+                        //console.log("maxTrend päivitetty: " + maxTrendGain)
+                        //console.log("maxTrendEndDay päivitetty: " + maxTrendEndDay)
+                    }
+                    
 
                 }
                 //console.log(trendEndDay)
 
                 //update daysPrice to yesterdaysPrice for the next round in the loop
                 yesterdaysPrice = daysPrice;
+                console.log("trendGain: " + trendGain);
 
 
             }
-
-
-
-            /* if(bestSell) {
-                
-            } else {
-      
-            } */
-
-
             //Formatting TIMESTAMP in to more UI friendly format
             const startTime = new Date(maxTrendStartDay).toLocaleDateString();
             //console.log(startTime);
@@ -316,7 +294,7 @@ function bitcoin3() {
             if (maxTrendGain == 0) {
                 document.getElementById("tehtava3").innerHTML = "Price is only going down. No point travelling to that time period. You should try some other period.";
             } else {
-                document.getElementById("tehtava3").innerHTML = "If you can travel back in time to this period of time, you should buy around " + startTime + " and sell around " + endTime + ", because in mentioned timeperiod the worth of 1 Bitcoin rose about " + maxTrendGain.toFixed(0) + " €."; 
+                document.getElementById("tehtava3").innerHTML = "If you can travel back in time to this period of time, you should buy around " + startTime + " and sell around " + endTime + ", because in mentioned timeperiod the worth of 1 Bitcoin rose about " + maxTrendGain.toFixed(0) + " €.";
             }
         });
 }
