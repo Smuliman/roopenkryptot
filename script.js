@@ -1,4 +1,4 @@
- 
+ //Function for button in machine 1:
   function bitcoin1() {
       //
       let firstdate = Date.parse(document.getElementById("start").value)/1000;
