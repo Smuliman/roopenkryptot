@@ -230,55 +230,60 @@ function bitcoin3() {
                     if (trendGain <= 0) {
                         //TrendGain is in minus so it means we are not yet inside bull trend as we dont have any gains
                         if (compare > 0) {
-                            // compare is positive so price has gone up comparing to yesterday, so we save this day as a Trend start day
-                            //
+                            // compare is positive so price has gone up comparing to yesterday, so we save yesterday day as a Trend start day
                             trendStartDay = (thisDate - 86400000);
-                            //maxTrendStartDay = trendStartDay;
-
+                            
+                            //when trandGain is updated, also trendEndDay will be updated
                             trendEndDay = thisDate;
-                            //maxTrendEndDay = trendEndDay
-
                             trendGain += compare;
-                            //maxTrendGain = trendGain;
-                            console.log("trend start: " + trendStartDay + " trend ens: " + trendEndDay + "trend Gain: " + trendGain)
-                            yesterdaysPrice = daysPrice;
+                            //console.log("trend start: " + trendStartDay + " trend ens: " + trendEndDay + "trend Gain: " + trendGain)
+                            
+                            // if trendGain is bigger than maxTrendGain, max variables must be updated
                             if (trendGain > maxTrendGain) {
                                 maxTrendGain = trendGain;
                                 maxTrendEndDay = thisDate;
                                 maxTrendStartDay = trendStartDay
-                                console.log("maxTrend päivitetty: " + maxTrendGain)
-                                console.log("maxTrendEndDay päivitetty: " + maxTrendEndDay)
+                                //console.log("maxTrend päivitetty: " + maxTrendGain)
+                                //console.log("maxTrendEndDay päivitetty: " + maxTrendEndDay)
                             }
+                            //continue statement is coming as we dont want to proceed anymore inside this round of the loop, so daysPrice must be updated to yesterdaysPrice
+                            yesterdaysPrice = daysPrice;
                             continue;
                         }
                     }
+                    //next up is those cases when already trendGain is positive
                     if (trendGain > 0) {
-                        console.log("tämä valittu");
+                        //console.log("tämä valittu");
+                        
+                        //if also compare is positive we just add compare value to trenGain
                         if (compare > 0) {
                             trendGain += compare;
                             }
                         }
+                        //if compare is negative we also "add" it to trendGain value but negative value naturally decreases trendGain
                         if (compare < 0) {
-                            console.log("sekä tämä");
+                            //console.log("sekä tämä");
                             trendGain += compare;
+                            //if trendGain goes to zero or to negative value, trendGain needs to be set to 0
                             if (trendGain < 0) {
                                 trendGain = 0;
-                                console.log("TrendGain nollaantui");
+                                //console.log("TrendGain nollaantui");
                             }
                         }
+                        //Check if trendGain breaks record and max values need to be updated
                         if (trendGain > maxTrendGain) {
                             maxTrendGain = trendGain;
                             maxTrendEndDay = thisDate;
                             maxTrendStartDay = trendStartDay
-                            console.log("maxTrend päivitetty: " + maxTrendGain)
-                            console.log("maxTrendEndDay päivitetty: " + maxTrendEndDay)
+                            //console.log("maxTrend päivitetty: " + maxTrendGain)
+                            //console.log("maxTrendEndDay päivitetty: " + maxTrendEndDay)
                     }
-                    console.log("trendGain: " + trendGain);
+                    //console.log("trendGain: " + trendGain);
 
                 }
-                console.log(trendEndDay)
+                //console.log(trendEndDay)
 
-
+                //update daysPrice to yesterdaysPrice for the next round in the loop
                 yesterdaysPrice = daysPrice;
 
 
@@ -293,7 +298,7 @@ function bitcoin3() {
             } */
 
 
-
+            //Formatting TIMESTAMP in to more UI friendly format
             const startTime = new Date(maxTrendStartDay).toLocaleDateString();
             //console.log(startTime);
 
@@ -307,17 +312,12 @@ function bitcoin3() {
             //console.log("Osta: "+lowestValue+" päivänä: "+bestBuy+" vs "+maxTrendStartDay);
             //console.log("Myy: "+highestValue+" päivänä: "+bestSell+" vs "+maxTrendEndDay);
 
-
+            //Add info to html, if the price only goes down, message is shown. Otherwise user will be notified when to buy and sell bitcoin in the past
             if (maxTrendGain == 0) {
                 document.getElementById("tehtava3").innerHTML = "Price is only going down. No point travelling to that time period. You should try some other period.";
             } else {
-                document.getElementById("tehtava3").innerHTML = "If you can travel back in time to this period of time, you should buy around " + startTime + " and sell around " + endTime + ", because in mentioned timeperiod the worth of 1 Bitcoin rose about " + maxTrendGain.toFixed(0) + " €.";
-                //document.getElementById("tehtava1").innerHTML = "In bitcoin’s historical data from CoinGecko, the price decreased "+maxBearish+""; 
+                document.getElementById("tehtava3").innerHTML = "If you can travel back in time to this period of time, you should buy around " + startTime + " and sell around " + endTime + ", because in mentioned timeperiod the worth of 1 Bitcoin rose about " + maxTrendGain.toFixed(0) + " €."; 
             }
         });
-
-
-
-
 }
 
