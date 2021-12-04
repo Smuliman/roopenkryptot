@@ -156,7 +156,7 @@ function bitcoin3() {
     //First formatting TIMESTAMPs to Dates and a lot of variables that were needed for comparing and saving info from trends
     let firstdate = Date.parse(document.getElementById("start3").value) / 1000;
     let lastdate = (Date.parse(document.getElementById("end3").value) + 86400000) / 1000;
-    let i = firstdate;
+    
     let timeWindow = (lastdate - firstdate) / 86400;
 
     let yesterdaysPrice = 0;
