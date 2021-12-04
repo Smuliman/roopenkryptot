@@ -160,8 +160,37 @@ if(daysPrice>yesterdaysPrice) {
 }
 
 let i=firstdate;
-daysPrice = (obj.prices[0])[1]; //oli rivillä 38
+daysPrice = (obj.prices[0])[1]; //oli rivillä 38 ja 199
 
 const d = new Date(thisDate)
                 //console.log(d);
                 //console.log("ThisDate: "+thisDate) // rivillä 48
+
+//TÄmä oli volume functiossa:
+// const found = obj.total_volumes[i].find(element => element > thisDate);
+                // console.log("found: "+found);
+                // if (found != undefined) {
+                //     daysPrice=(obj.prices[i])[1];
+                //     console.log("Daysprice: "+daysPrice)
+                //     break
+                // }
+
+
+                //oli funktiossa time machine
+                /* if (highestValue==0 && lowestValue==0){
+                    highestValue=daysPrice;
+                    lowestValue=daysPrice;
+                    bestBuy=thisDate;
+                    bestSell=thisDate;
+                    //console.log("alkuarvo price päivitetty"); 
+                }else if (daysPrice > highestValue) {
+                     highestValue=daysPrice; 
+                     bestSell=thisDate;
+                     //console.log("highest price päivitetty"); 
+                     //console.log("highest price "+highestValue); 
+                 } else if (daysPrice < lowestValue) {
+                     lowestValue=daysPrice;
+                     bestBuy=thisDate;
+                     //console.log("lowest price päivitetty");
+                     //console.log("lowest price "+lowestValue);  
+                 }   */
