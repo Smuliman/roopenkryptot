@@ -292,9 +292,9 @@ function bitcoin3() {
 
             //Add info to html, if the price only goes down, message is shown. Otherwise user will be notified when to buy and sell bitcoin in the past
             if (maxTrendGain == 0) {
-                document.getElementById("tehtava3").innerHTML = "Price is only going down. No point travelling to that time period. You should try some other period.";
+                document.getElementById("tehtava3").innerHTML = "Price is only going down. No point travelling there. You should try some other period.";
             } else {
-                document.getElementById("tehtava3").innerHTML = "If you can travel back in time to this period of time, you should buy around " + startTime + " and sell around " + endTime + ", because in mentioned timeperiod the worth of 1 Bitcoin rose about " + maxTrendGain.toFixed(0) + " €.";
+                document.getElementById("tehtava3").innerHTML = "If you can travel back in time to this period of time, you should buy around " + startTime + " and sell around " + endTime + ". In mentioned time period the worth of 1 Bitcoin rose about " + maxTrendGain.toFixed(0) + " €.";
             }
         });
 }
