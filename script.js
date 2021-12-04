@@ -34,7 +34,6 @@ function bitcoin1() {
             //console.log(obj.prices);
             //console.log("Prices listan pituus: "+obj.prices.length);
             
-            //Save
             
             //variable thisDate for the loop
             thisDate = 0;
@@ -43,10 +42,10 @@ function bitcoin1() {
             //The loop finds the earliest TIMESTAMP of every day in the time period and the compares it to yesterdays value
             //if yesterdaysPrice is bigger than daysPrice, it means bearish trend. If not some other things happen:)
             for (let i = 0; i < timeWindow; i++) {
-                //thisDate is calculated by multipling firstdate TIMESTAMP with 1000(to mseconds) and 86400000(one day) for every loop round.
+                //thisDate is calculated by multipling firstdate TIMESTAMP with 1000(to mseconds) and adding 86400000(one day) for every loop round.
                 thisDate = firstdate * 1000 + (i * 86400000);
                 
-                //other loop in side loop: this loop finds the first datapoint of the day and saves that points Bitcoin value to variable daysPrice
+                //other loop inside loop: this loop finds the first datapoint of the day and saves that datapoints Bitcoin value to variable daysPrice
                 for (let i = 0; i < obj.prices.length; i++) {
 
                     const found = obj.prices[i].find(element => element > thisDate);
@@ -58,8 +57,6 @@ function bitcoin1() {
                         //console.log("Daysprice: "+daysPrice)
                         break;
                     }
-
-
                 }
                 //now we have found the days closest value to 00:00 and we want to do couple of checks on that value:
                 //first if the value is smaller than yesterdays value AND value of variable bearish is 0 it is a sign of the new bearish trend
@@ -80,37 +77,20 @@ function bitcoin1() {
                 }
                 //if the bearish has reached a new record in the time period, we want to save these figures in these variables
                 if (bearish > maxBearish) {
-
                     maxBearish = bearish;
                     maxStart = trendStart;
                     maxEnd = thisDate;
-
-
-
                 }
                 // after we are ready with todays numbers we save daysPrice to yesterdaysPrice for the next rounf of the loop
                 yesterdaysPrice = daysPrice;
-
-
             }
-
-
-
-
-
-
-
-
+            //end of looping
 
             //formatting TIMESTAMP to more UI friendly format
-
             const finalTrendStart = new Date(maxStart).toLocaleDateString();
             //console.log("Max bear startti "+finalTrendStart);
             const finalTrendEnd = new Date(maxEnd).toLocaleDateString();
             //console.log("Max bear loppui: "+finalTrendEnd);
-
-
-
             //console.log("Bearish: "+bearish);
             //console.log("MaxBearish: "+maxBearish);
 
@@ -118,84 +98,80 @@ function bitcoin1() {
             document.getElementById("tehtava1").innerHTML = "The longest bearish Bitcoin trend within a given date range was " + maxBearish + " days in a row. It happeneded between " + finalTrendStart + " and " + finalTrendEnd + ". If my calculations are correct.";
             //document.getElementById("tehtava1").innerHTML = "In bitcoin’s historical data from CoinGecko, the price decreased "+maxBearish+""; 
         });
-
-
-
-
 }
 
+// Next is function fot the second machine
 function bitcoin2() {
+    // Format date inputs, count how many days and introduce 2 variables
     let firstdate = Date.parse(document.getElementById("start2").value) / 1000;
     let lastdate = (Date.parse(document.getElementById("end2").value) + 86400000) / 1000;
     let timeWindow = (lastdate - firstdate) / 86400;
     let maxVolume = 0;
-    let maxDate
+    let maxDate=0;
 
+    //Fetch data from API
     fetch(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=eur&from=${firstdate}}&to=${(lastdate + 3600)}`)
         .then((response) => {
             //console.log(response.status);
             return response.json();
         })
         .then((data) => {
-
+            //form object of json data
             const obj = data;
             //console.log(obj);
             //console.log(obj.total_volumes);
 
+            //loop to go through imputted time period 
             for (let i = 0; i < timeWindow; i++) {
-
+                
                 thisDate = firstdate * 1000 + (i * 86400000);
 
-
+                //another loop to find datapoints closest to 00:00
                 for (let i = 0; i < obj.total_volumes.length; i++) {
-
+                    
                     const found = obj.total_volumes[i].find(element => element > thisDate);
                     //console.log("found: "+found);
+
                     if (found != undefined) {
                         //console.log((obj.total_volumes[i])[1]);
+
+                        //If the found quantity of volume is bigger than existing macXolume, update todays volume as a new maxVolume and thisDate to maxDate
                         if ((obj.total_volumes[i])[1] > maxVolume) {
                             maxVolume = (obj.total_volumes[i])[1];
                             maxDate = thisDate;
                             //console.log("maxVolume: "+maxVolume)
-
                         }
+                        // we want only the volume from the datapoint closest to 00:00 so we break the loop after non-undefined is found
                         break;
                     }
-
-
                 }
-
-                // const found = obj.total_volumes[i].find(element => element > thisDate);
-                // console.log("found: "+found);
-                // if (found != undefined) {
-                //     daysPrice=(obj.prices[i])[1];
-                //     console.log("Daysprice: "+daysPrice)
-                //     break
-                // }
-
-
             }
+            //formatting date from TIMESTAMP to Date
             const finalMaxDate = new Date(maxDate)
             //console.log("maksimivola: "+maxVolume)
+
+            //update html with the result
             document.getElementById("tehtava2").innerHTML = "The highest trading volume in the chosen period was on " + (finalMaxDate).toLocaleDateString() + " when the trading volume was " + maxVolume.toFixed(0) + " €.";
 
         });
 }
-function bitcoin3() {
 
+//Then the last machine, this was a puzzle
+function bitcoin3() {
+    //First formatting TIMESTAMPs to Dates and a lot of variables that were needed for comparing and saving info from trends
     let firstdate = Date.parse(document.getElementById("start3").value) / 1000;
     let lastdate = (Date.parse(document.getElementById("end3").value) + 86400000) / 1000;
     let i = firstdate;
     let timeWindow = (lastdate - firstdate) / 86400;
-    console.log("timeWindow: " + timeWindow);
-    console.log("firsdate: " + firstdate);
-    console.log("lastdate: " + lastdate);
-    console.log("i: " + i);
+    //console.log("timeWindow: " + timeWindow);
+    //console.log("firsdate: " + firstdate);
+    //console.log("lastdate: " + lastdate);
+   // console.log("i: " + i);
 
 
     let yesterdaysPrice = 0;
-    let lowestValue = 0;
-    let highestValue = 0;
+    //let lowestValue = 0;
+    //let highestValue = 0;
     //let bestBuy = 0;
     //let bestSell = 0;
     let daysPrice = 0;
@@ -207,103 +183,95 @@ function bitcoin3() {
     let maxTrendStartDay = 0;
     let maxTrendEndDay = 0;
 
-
-
-
-
-
+    //Fetch data from API
     fetch(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=eur&from=${firstdate}}&to=${(lastdate + 3600)}`)
         .then((response) => {
-            console.log(response.status);
+            //console.log(response.status);
             return response.json();
         })
         .then((data) => {
-
+            //putting data in to object
             const obj = data;
-            console.log(obj.prices);
-            console.log("Prices listan pituus: " + obj.prices.length);
-            daysPrice = (obj.prices[0])[1];
+            //console.log(obj.prices);
+            //console.log("Prices listan pituus: " + obj.prices.length);
 
+            // variable to loop
             thisDate = 0;
 
-
+            //loop to go through amount of days based on inputs
             for (let i = 0; i < timeWindow; i++) {
-
+                //this counts the TIMESTAMP in ms for wanted day
                 thisDate = firstdate * 1000 + (i * 86400000);
                 const d = new Date(thisDate)
                 console.log(d);
                 //console.log("ThisDate: "+thisDate)
 
+                //loop to find datapoint closest to 00:00
                 for (let i = 0; i < obj.prices.length; i++) {
 
                     const found = obj.prices[i].find(element => element > thisDate);
                     //console.log("found: "+found);
                     if (found != undefined) {
+                        //wanted datapoint found: lets save its price to daysPrice and break the loop
                         daysPrice = (obj.prices[i])[1];
-                        console.log("Daysprice: " + daysPrice)
+                        //console.log("Daysprice: " + daysPrice)
                         break;
                     }
                 }
-
-
-
-                /* if (highestValue==0 && lowestValue==0){
-                    highestValue=daysPrice;
-                    lowestValue=daysPrice;
-                    bestBuy=thisDate;
-                    bestSell=thisDate;
-                    //console.log("alkuarvo price päivitetty"); 
-                }else if (daysPrice > highestValue) {
-                     highestValue=daysPrice; 
-                     bestSell=thisDate;
-                     //console.log("highest price päivitetty"); 
-                     //console.log("highest price "+highestValue); 
-                 } else if (daysPrice < lowestValue) {
-                     lowestValue=daysPrice;
-                     bestBuy=thisDate;
-                     //console.log("lowest price päivitetty");
-                     //console.log("lowest price "+lowestValue);  
-                 }   */
-
+                //then continue inside the second loop with if comparing
+                //if yesterdays price is 0 it must be the first day and in the first day we cant compare anything so we just copy this days value to yesterdaysValue variable in the end of loop
+                // If yesterdaysPrice is more than 0(there is something to compare) we start comparing
                 if (yesterdaysPrice > 0) {
-                    console.log("aloitettu trendin jahti")
-
+                    //console.log("aloitettu trendin jahti")
+                    // we save the difference of daysPrice and yesterdaysPrice in variable compare
                     compare = daysPrice - yesterdaysPrice;
                     console.log("compare: " + compare);
-
+                    //trendGain is variable which keeps track on gains inside a bull (bull: price goes up) trend. 
                     if (trendGain <= 0) {
-
+                        //TrendGain is in minus so it means we are not yet inside bull trend as we dont have any gains
                         if (compare > 0) {
-
+                            // compare is positive so price has gone up comparing to yesterday, so we save this day as a Trend start day
+                            //
                             trendStartDay = (thisDate - 86400000);
-                            maxTrendStartDay = trendStartDay;
+                            //maxTrendStartDay = trendStartDay;
 
                             trendEndDay = thisDate;
-                            maxTrendEndDay = trendEndDay
+                            //maxTrendEndDay = trendEndDay
 
                             trendGain += compare;
-                            maxTrendGain = trendGain;
+                            //maxTrendGain = trendGain;
                             console.log("trend start: " + trendStartDay + " trend ens: " + trendEndDay + "trend Gain: " + trendGain)
                             yesterdaysPrice = daysPrice;
-                            continue;
-                        }
-                    }
-                    if (trendGain > 0) {
-                        if (compare > 0) {
-                            trendGain += compare;
                             if (trendGain > maxTrendGain) {
                                 maxTrendGain = trendGain;
                                 maxTrendEndDay = thisDate;
                                 maxTrendStartDay = trendStartDay
                                 console.log("maxTrend päivitetty: " + maxTrendGain)
+                                console.log("maxTrendEndDay päivitetty: " + maxTrendEndDay)
                             }
-                        } else if (compare < 0) {
+                            continue;
+                        }
+                    }
+                    if (trendGain > 0) {
+                        console.log("tämä valittu");
+                        if (compare > 0) {
+                            trendGain += compare;
+                            }
+                        }
+                        if (compare < 0) {
+                            console.log("sekä tämä");
                             trendGain += compare;
                             if (trendGain < 0) {
                                 trendGain = 0;
                                 console.log("TrendGain nollaantui");
                             }
                         }
+                        if (trendGain > maxTrendGain) {
+                            maxTrendGain = trendGain;
+                            maxTrendEndDay = thisDate;
+                            maxTrendStartDay = trendStartDay
+                            console.log("maxTrend päivitetty: " + maxTrendGain)
+                            console.log("maxTrendEndDay päivitetty: " + maxTrendEndDay)
                     }
                     console.log("trendGain: " + trendGain);
 
