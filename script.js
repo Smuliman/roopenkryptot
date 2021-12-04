@@ -20,7 +20,7 @@
             
         
         
-      fetch(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=usd&from=${firstdate}}&to=${(lastdate+86400)}`)
+      fetch(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=eur&from=${firstdate}}&to=${(lastdate+3600)}`)
       .then((response) => {
         //console.log(response.status);
       return response.json();
@@ -117,7 +117,7 @@ document.getElementById("tehtava1").innerHTML = "The longest bearish Bitcoin tre
     let maxVolume = 0;
     let maxDate
 
-    fetch(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=usd&from=${firstdate}}&to=${(lastdate+86400)}`)
+    fetch(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=eur&from=${firstdate}}&to=${(lastdate+3600)}`)
       .then((response) => {
         //console.log(response.status);
       return response.json();
@@ -163,7 +163,7 @@ document.getElementById("tehtava1").innerHTML = "The longest bearish Bitcoin tre
         }
         const finalMaxDate = new Date(maxDate)
            //console.log("maksimivola: "+maxVolume)
-           document.getElementById("tehtava2").innerHTML = "The highest trading volume in the chosen period was on "+(finalMaxDate).toLocaleDateString()+" when the trading volume was $"+maxVolume.toFixed(0)+"!"; 
+           document.getElementById("tehtava2").innerHTML = "The highest trading volume in the chosen period was on "+(finalMaxDate).toLocaleDateString()+" when the trading volume was "+maxVolume.toFixed(0)+" €."; 
         
     });
   }
@@ -198,7 +198,7 @@ document.getElementById("tehtava1").innerHTML = "The longest bearish Bitcoin tre
           
       
       
-    fetch(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=usd&from=${firstdate}}&to=${(lastdate+86400)}`)
+    fetch(`https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=eur&from=${firstdate}}&to=${(lastdate+3600)}`)
     .then((response) => {
       console.log(response.status);
     return response.json();
@@ -329,7 +329,7 @@ document.getElementById("tehtava1").innerHTML = "The longest bearish Bitcoin tre
 if (maxTrendGain == 0) {
     document.getElementById("tehtava3").innerHTML = "Price is only going down. No point travelling to that time period. You should try some other period.";
 }else {
-document.getElementById("tehtava3").innerHTML = "If you can travel back in time to this period of time, you should buy around "+startTime+" and sell around "+endTime+", because in mentioned timeperiod the worth of 1 Bitcoin rose about $"+maxTrendGain.toFixed(0)+".";
+document.getElementById("tehtava3").innerHTML = "If you can travel back in time to this period of time, you should buy around "+startTime+" and sell around "+endTime+", because in mentioned timeperiod the worth of 1 Bitcoin rose about "+maxTrendGain.toFixed(0)+" €.";
 //document.getElementById("tehtava1").innerHTML = "In bitcoin’s historical data from CoinGecko, the price decreased "+maxBearish+""; 
 }
 });
