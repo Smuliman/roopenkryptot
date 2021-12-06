@@ -4,7 +4,7 @@ Author: Samuli Tyyskä
 
 
 
-This website is a project that I will attach Vincit's Rising Star application. The assaignment was as follows:
+This website is a project is part of a job application. The assaignment was as follows:
 
 Scrooge McDuck is once again requesting consultation from fellow ducks at Vincit.
 This time Scrooge has his eyes on cryptocurrency — bitcoin to be exact — and he needs a tool to
