@@ -211,7 +211,7 @@ function bitcoin3() {
                     //console.log("aloitettu trendin jahti")
                     // we save the difference of daysPrice and yesterdaysPrice in variable compare
                     compare = daysPrice - yesterdaysPrice;
-                    console.log("compare: " + compare);
+                    //console.log("compare: " + compare);
                     //trendGain is variable which keeps track on gains inside a bull (bull: price goes up) trend. 
                     if (trendGain <= 0) {
                         //TrendGain is in minus so it means we are not yet inside bull trend as we dont have any gains
@@ -234,7 +234,7 @@ function bitcoin3() {
                             }
                             //continue statement is coming as we dont want to proceed anymore inside this round of the loop, so daysPrice must be updated to yesterdaysPrice
                             yesterdaysPrice = daysPrice;
-                            console.log("trendGain: " + trendGain);
+                            //console.log("trendGain: " + trendGain);
                             continue;
                         }
                     }
@@ -272,7 +272,7 @@ function bitcoin3() {
 
                 //update daysPrice to yesterdaysPrice for the next round in the loop
                 yesterdaysPrice = daysPrice;
-                console.log("trendGain: " + trendGain);
+                //console.log("trendGain: " + trendGain);
 
 
             }
