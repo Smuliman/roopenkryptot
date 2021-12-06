@@ -16,20 +16,28 @@ Application
 Scrooge wants to use the application to get the following information for different date ranges he is
 analyzing:
 Additional information:
+
 ● Both start and end dates should be included in a date range.
+
 ● A day’s price means the price at 00:00 UTC time (use price data from as close to midnight as
 possible as the day’s price, if you don’t have a datapoint from exactly midnight).
+
 ● Allow the user of your application to pass the start and end dates of the date range in some way,
 e.g. via input fields in a UI or as parameters to an API.
+
 A. How many days is the longest bearish (downward) trend within a given date range?
 ● Definition of a downward trend shall be: “Price of day N is lower than price of day N-1”
+
 ● Expected output: The maximum amount of days bitcoin’s price was decreasing in a row.
+
 Example: In bitcoin’s historical data from CoinGecko, the price decreased 2 days in a row for the
 inputs from 2020-01-19 and to 2020-01-21, and the price decreased for 8 days in a row for the
 inputs from 2020-03-01 and to 2021-08-01.
+
 B. Which date within a given date range had the highest trading volume?
 ● Expected output: The date with the highest trading volume and the volume on that day in
 euros.
+
 C. Scrooge has access to Gyro Gearloose’s newest invention, a time machine. Scrooge
 wants to use the time machine to profit from bitcoin. The application should be able to tell
 for a given date range, the best day for buying bitcoin, and the best day for selling the
