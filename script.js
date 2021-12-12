@@ -1,11 +1,5 @@
 //Function for button in machine 1:
 function bitcoin1() {
-    //Date input validation
-    if (document.getElementById("start").value == "") {
-        document.getElementById("tehtava1").innerHTML = "Choose both Date input fields to execute the machine";
-    } else if (document.getElementById("end").value == "") {
-        document.getElementById("tehtava1").innerHTML = "Choose both Date input fields to execute the machine";
-    }
 
     // Parsing date from input form YYYY-MM-DD in to TIMESTAMP
     let firstdate = Date.parse(document.getElementById("start").value) / 1000;
@@ -21,6 +15,7 @@ function bitcoin1() {
     let daysPrice = 0;
     let maxBearish = 0;
     let maxStart = 0;
+    let maxEnd = 0;
 
 
     // Fetch data from the goingekko API in the given time period
@@ -97,8 +92,17 @@ function bitcoin1() {
             //console.log("MaxBearish: "+maxBearish);
 
             //finally we add our findings to html
-            document.getElementById("tehtava1").innerHTML = "The longest bearish Bitcoin trend within a given date range was " + maxBearish + " days in a row. It happeneded between " + finalTrendStart + " and " + finalTrendEnd + ". If my calculations are correct.";
-            //document.getElementById("tehtava1").innerHTML = "In bitcoin’s historical data from CoinGecko, the price decreased "+maxBearish+""; 
+            //Date input validation
+            if (document.getElementById("start").value == "") {
+                document.getElementById("tehtava1").innerHTML = "Choose both Date input fields to execute the machine";
+            } else if (document.getElementById("end").value == "") {
+                document.getElementById("tehtava1").innerHTML = "Choose both Date input fields to execute the machine";
+            } else if (maxBearish == 0) {
+                document.getElementById("tehtava1").innerHTML = "The price has only gone up in this time period. No bearish days at all";
+            } else {
+                document.getElementById("tehtava1").innerHTML = "The longest bearish Bitcoin trend within a given date range was " + maxBearish + " days in a row. It happeneded between " + finalTrendStart + " and " + finalTrendEnd + ". If my calculations are correct.";
+                //document.getElementById("tehtava1").innerHTML = "In bitcoin’s historical data from CoinGecko, the price decreased "+maxBearish+""; 
+            }
         });
 }
 
@@ -311,7 +315,7 @@ function bitcoin3() {
 
             //Date input validation
             //Add info to html, if the price only goes down, message is shown. Otherwise user will be notified when to buy and sell bitcoin in the past
-            
+
             if (document.getElementById("start3").value == "") {
                 document.getElementById("tehtava3").innerHTML = "Choose both Date input fields to execute the machine";
             } else if (document.getElementById("end3").value == "") {
