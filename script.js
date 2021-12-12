@@ -1,5 +1,12 @@
 //Function for button in machine 1:
 function bitcoin1() {
+    //Date input validation
+    if (document.getElementById("start").value == "") {
+        document.getElementById("tehtava1").innerHTML = "Choose both Date input fields to execute the machine";
+    } else if (document.getElementById("end").value == "") {
+        document.getElementById("tehtava1").innerHTML = "Choose both Date input fields to execute the machine";
+    }
+
     // Parsing date from input form YYYY-MM-DD in to TIMESTAMP
     let firstdate = Date.parse(document.getElementById("start").value) / 1000;
     let lastdate = (Date.parse(document.getElementById("end").value) + 86400000) / 1000;
@@ -97,6 +104,7 @@ function bitcoin1() {
 
 // Next is function fot the second machine
 function bitcoin2() {
+
     // Format date inputs, count how many days and introduce 2 variables
     let firstdate = Date.parse(document.getElementById("start2").value) / 1000;
     let lastdate = (Date.parse(document.getElementById("end2").value) + 86400000) / 1000;
@@ -145,9 +153,20 @@ function bitcoin2() {
             const finalMaxDate = new Date(maxDate)
             //console.log("maksimivola: "+maxVolume)
 
-            //update html with the result
-            document.getElementById("tehtava2").innerHTML = "The highest trading volume in the chosen period was on " + (finalMaxDate).toLocaleDateString() + " when the trading volume was " + maxVolume.toFixed(0) + " €.";
 
+            //Date input validation
+            if (document.getElementById("start2").value == "") {
+                document.getElementById("tehtava2").innerHTML = "Choose both Date input fields to execute the machine";
+
+
+            } else if (document.getElementById("end2").value == "") {
+                document.getElementById("tehtava2").innerHTML = "Choose both Date input fields to execute the machine";
+
+
+            } else {
+                //update html with the result
+                document.getElementById("tehtava2").innerHTML = "The highest trading volume in the chosen period was on " + (finalMaxDate).toLocaleDateString() + " when the trading volume was " + maxVolume.toFixed(0) + " €.";
+            }
         });
 }
 
@@ -156,7 +175,7 @@ function bitcoin3() {
     //First formatting TIMESTAMPs to Dates and a lot of variables that were needed for comparing and saving info from trends
     let firstdate = Date.parse(document.getElementById("start3").value) / 1000;
     let lastdate = (Date.parse(document.getElementById("end3").value) + 86400000) / 1000;
-    
+
     let timeWindow = (lastdate - firstdate) / 86400;
 
     let yesterdaysPrice = 0;
@@ -189,7 +208,7 @@ function bitcoin3() {
                 //this counts the TIMESTAMP in ms for wanted day
                 thisDate = firstdate * 1000 + (i * 86400000);
                 const d = new Date(thisDate)
-                console.log(d);
+                //console.log(d);
                 //console.log("ThisDate: "+thisDate)
 
                 //loop to find datapoint closest to 00:00
@@ -200,7 +219,7 @@ function bitcoin3() {
                     if (found != undefined) {
                         //wanted datapoint found: lets save its price to daysPrice and break the loop
                         daysPrice = (obj.prices[i])[1];
-                        console.log("Daysprice: " + daysPrice)
+                        //console.log("Daysprice: " + daysPrice)
                         break;
                     }
                 }
@@ -265,7 +284,7 @@ function bitcoin3() {
                         //console.log("maxTrend päivitetty: " + maxTrendGain)
                         //console.log("maxTrendEndDay päivitetty: " + maxTrendEndDay)
                     }
-                    
+
 
                 }
                 //console.log(trendEndDay)
@@ -290,8 +309,14 @@ function bitcoin3() {
             //console.log("Osta: "+lowestValue+" päivänä: "+bestBuy+" vs "+maxTrendStartDay);
             //console.log("Myy: "+highestValue+" päivänä: "+bestSell+" vs "+maxTrendEndDay);
 
+            //Date input validation
             //Add info to html, if the price only goes down, message is shown. Otherwise user will be notified when to buy and sell bitcoin in the past
-            if (maxTrendGain == 0) {
+            
+            if (document.getElementById("start3").value == "") {
+                document.getElementById("tehtava3").innerHTML = "Choose both Date input fields to execute the machine";
+            } else if (document.getElementById("end3").value == "") {
+                document.getElementById("tehtava3").innerHTML = "Choose both Date input fields to execute the machine";
+            } else if (maxTrendGain == 0) {
                 document.getElementById("tehtava3").innerHTML = "Price is only going down. No point travelling there. You should try some other period.";
             } else {
                 document.getElementById("tehtava3").innerHTML = "If you can travel back in time to this period of time, you should buy around " + startTime + " and sell around " + endTime + ". In mentioned time period the worth of 1 Bitcoin rose about " + maxTrendGain.toFixed(0) + " €.";
